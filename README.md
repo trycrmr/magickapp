@@ -17,10 +17,8 @@ The way this works is this script can be run with one of the arguments for image
 
 TODO: 
 - Set up testing and write tests
-- Implement each of these in order of immediate need: https://www.imagemagick.org/script/command-line-options.php . Currently only grayscale is implemented
+- Implement each of these in order of immediate need: https://www.imagemagick.org/script/command-line-options.php . Currently only grayscale is implemented.
 - Handle input options and output options differently
-- Ensure chaining works as expected. Might have to simplify naming convention of destination files so they can be easily and repeatably referenced.
-- Switch statement of options could be a hash table instead, but who cares.
+- Ensure chaining works as expected. Might have to simplify naming convention of destination files so they can be easily and repeatably referenced
+- Switch statement of options could be a hash table instead, but who cares
 - Maybe consider maintaining some sort of state to pretty print the results to the user
-
-- Be able to run `convert` without an option and things don't break
