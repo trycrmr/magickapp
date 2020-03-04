@@ -3,7 +3,14 @@
 const getConvertOptions = (option, optionArgs) => {
   let allOptions = []
   switch(option) {
-    case 'adaptive‑blur': {}
+    case 'adaptive‑blur': {
+      allOptions = [ ...allOptions, ...[
+        () => { return {input: '', output: '-grayscale Rec601Luma', nickname: 'Rec601Luma'} },
+        () => { return {input: '', output: '-grayscale Rec601Luminance', nickname: 'Rec601Luminance'} },
+        () => { return {input: '', output: '-grayscale Rec709Luma', nickname: 'Rec709Luma'} },
+        () => { return {input: '', output: '-grayscale Rec709Luminance', nickname: 'Rec709Luminance'} },
+      ]]
+    }
     case 'adaptive‑resize': {}
     case 'adaptive‑sharpen': {}
     case 'adjoin': {}
@@ -119,7 +126,18 @@ const getConvertOptions = (option, optionArgs) => {
     case 'function': {}
     case 'fuzz': {}
     case 'fx': {}
-    case 'gamma': {}
+    case 'gamma': {
+      let increment = 0.3
+      allOptions = [ ...allOptions,
+        ...new Array(50)
+          .fill(0)
+          .map((imgFunc, idx) => {
+            let value = increment * (idx + 1)
+            imgFunc = () => { return {input: '', output: `-gamma ${value}` , nickname: `gamma-${value}`} }
+            return imgFunc
+          })
+      ]
+    }
     case 'gaussian‑blur': {}
     case 'geometry': {}
     case 'gravity': {}
