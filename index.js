@@ -5,8 +5,9 @@ import getConvertOptions from './convert-options.js' // returns an array of func
 
 (async (args) => {
   const exec = util.promisify(child_process.exec);
-  const srcImage = `${fs.readdirSync('./src-image')}`
-  const destDirName = `${srcImage.replace('.','-')}-${new Date().toISOString().replace(/ /g,'-')}`
+  const srcImage = fs.readdirSync('./src-image')
+  const destDirName = `dest-${args.slice(2).join('-')}`
+  //`${srcImage.replace('.','-')}-${new Date().toISOString().replace(/ /g,'-')}`
 
   // presumed "convert" is the imagemagick command being run
   const runCommand = async (convertCommand) => {
@@ -27,10 +28,17 @@ Executing >>> ${convertCommand}`) // Purposeful line breaks
           console.error(`
 No imagemagick commands associated with the "${thisOption}" option were found. It will be ignored.`) // Purposeful line break
         } else {
-          console.info(`
-Applying ${thisOption} to ${srcImage}...`)
           convertCommands.forEach((thisCommand) => {
-            runCommand(`convert ${thisCommand().input} ${process.cwd()}/src-image/${srcImage} ${thisCommand().output} ${process.cwd()}/${destDirName}/${srcImage.replace('.','-')}-${thisCommand().nickname}${srcImage.substring(srcImage.lastIndexOf('.'), srcImage.length)}`)
+            if(srcImage.length === 0) {
+              console.error(`
+              No images in the src-image directory. Please add an image and rerun Magickapp.`) // Purposeful line break
+            } else {
+              srcImage.forEach(thisImage => {
+                console.info(`
+                Applying ${thisOption} to ${thisImage}...`)
+                runCommand(`convert ${thisCommand().input} ${process.cwd()}/src-image/${thisImage} ${thisCommand().output} ${process.cwd()}/${destDirName}/${thisImage.replace('.','-')}-${thisCommand().nickname}${thisImage.substring(thisImage.lastIndexOf('.'), thisImage.length)}`)
+              })
+            }
           }) 
         }
       })
@@ -49,6 +57,7 @@ You found the Magickapp help! Pass an option, such as "grayscale", to generate i
     let options = args.length === 2 ? ['help'] : args.slice(2) // trims off the first two default node args
     try {
       await convert(options);
+      process.exit
     } catch(err) {
       console.error(err)
     }

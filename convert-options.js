@@ -130,6 +130,7 @@ const getConvertOptions = (option, optionArgs) => {
             return imgFunc
           })
       ]
+      break
     }
     case 'gaussian‑blur': {}
     case 'geometry': {}
@@ -141,6 +142,7 @@ const getConvertOptions = (option, optionArgs) => {
         () => { return {input: '', output: '-grayscale Rec709Luma', nickname: 'Rec709Luma'} },
         () => { return {input: '', output: '-grayscale Rec709Luminance', nickname: 'Rec709Luminance'} },
       ]]
+      break
     }
     case 'green‑primary': {}
     case 'hald‑clut': {}
