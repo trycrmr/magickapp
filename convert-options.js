@@ -3,14 +3,7 @@
 const getConvertOptions = (option, optionArgs) => {
   let allOptions = []
   switch(option) {
-    case 'adaptive‑blur': {
-      allOptions = [ ...allOptions, ...[
-        () => { return {input: '', output: '-grayscale Rec601Luma', nickname: 'Rec601Luma'} },
-        () => { return {input: '', output: '-grayscale Rec601Luminance', nickname: 'Rec601Luminance'} },
-        () => { return {input: '', output: '-grayscale Rec709Luma', nickname: 'Rec709Luma'} },
-        () => { return {input: '', output: '-grayscale Rec709Luminance', nickname: 'Rec709Luminance'} },
-      ]]
-    }
+    case 'adaptive‑blur': {}
     case 'adaptive‑resize': {}
     case 'adaptive‑sharpen': {}
     case 'adjoin': {}
