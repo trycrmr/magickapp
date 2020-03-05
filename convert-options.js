@@ -132,7 +132,7 @@ const getConvertOptions = (option, optionArgs) => {
         ...new Array(50)
           .fill(0)
           .map((imgFunc, idx) => {
-            let value = increment * (idx + 1)
+            let value = (Math.round(increment * (idx + 1) / 0.1) * 0.1).toFixed(1) // Rounding to the tenths place, Math.round(num / granularity) * granularity
             imgFunc = () => { return {input: '', output: `-gamma ${value}` , nickname: `gamma-${value}`} }
             return imgFunc
           })
