@@ -17,7 +17,7 @@ const getConvertOptions = (option, optionArgs) => {
     case 'auto‑gamma': {}
     case 'auto‑level': {}
     case 'auto‑orient': {}
-    case 'auto‑threshold': {}
+    // case 'auto‑threshold': {} // Does not exist in ImageMagick 6.9.7-4 Q16 x86_64 20170114 (Terry's local copy)
     case 'backdrop': {}
     case 'background': {}
     case 'bench': {}
@@ -202,7 +202,20 @@ const getConvertOptions = (option, optionArgs) => {
     case 'ordered‑dither': {}
     case 'orient': {}
     case 'page': {}
-    case 'paint': {}
+    case 'paint': {
+      let increment = 1
+      allOptions = [ ...allOptions,
+        () => { return {input: '', output: `-paint -1` , nickname: `print--1`} },
+        ...new Array(30)
+          .fill(0)
+          .map((imgFunc, idx) => {
+            let value = (Math.round(increment * (idx) / 1) * 1).toFixed(0) // Rounding to the tenths place, Math.round(num / granularity) * granularity
+            imgFunc = () => { return {input: '', output: `-paint ${value}` , nickname: `print-${value}`} }
+            return imgFunc
+          })
+      ]
+      break
+    }
     case 'path': {}
     case 'pause[animate]': {}
     case 'pause[import]': {}
@@ -282,7 +295,20 @@ const getConvertOptions = (option, optionArgs) => {
     case 'taint': {}
     case 'text‑font': {}
     case 'texture': {}
-    case 'threshold': {}
+    case 'threshold': {
+      let thresholdPercentages = [20,40,60,80]
+      let channelTypes = [0,1,2,3]
+      let thresholdFunctions = channelTypes.reduce((prev, curr, currIdx, arr) => {
+        let theseThresholdArrayFunctions = []
+        for(let i = 0; i < thresholdPercentages.length; i++ ) {
+          let thresholdObj = {input: '', output: `-channel ${curr} -threshold ${thresholdPercentages[i]}%` , nickname: `threshold-channel${curr}-threshold${thresholdPercentages[i]}`}
+          theseThresholdArrayFunctions.push(() => { return thresholdObj } )
+        }
+        return [...prev, ...theseThresholdArrayFunctions]
+      }, [])
+      allOptions = [ ...allOptions, ...thresholdFunctions ]
+      break
+    }
     case 'thumbnail': {}
     case 'tile': {}
     case 'tile‑offset': {}

@@ -12,8 +12,8 @@ import getConvertOptions from './convert-options.js' // returns an array of func
   // presumed "convert" is the imagemagick command being run
   const runCommand = async (convertCommand) => {
     try {
-      console.info(`
-Executing >>> ${convertCommand}`) // Purposeful line breaks
+//       console.info(`
+// Executing >>> ${convertCommand}`) // Purposeful line breaks
       await exec(convertCommand);
     } catch(err) {
       throw err
@@ -34,8 +34,8 @@ No imagemagick commands associated with the "${thisOption}" option were found. I
               No images in the src-image directory. Please add an image and rerun Magickapp.`) // Purposeful line break
             } else {
               srcImage.forEach(thisImage => {
-                console.info(`
-                Applying ${thisOption} to ${thisImage}...`)
+                // console.info(`
+                // Applying ${thisOption} to ${thisImage}...`)
                 runCommand(`convert ${thisCommand().input} ${process.cwd()}/src-image/${thisImage} ${thisCommand().output} ${process.cwd()}/${destDirName}/${thisImage.replace('.','-')}-${thisCommand().nickname}${thisImage.substring(thisImage.lastIndexOf('.'), thisImage.length)}`)
               })
             }
