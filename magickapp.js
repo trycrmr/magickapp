@@ -37,8 +37,6 @@ No imagemagick commands associated with the "${thisOption}" option were found. I
                 commandsRun.push(commandToRun)
                 // console.info(`
                 // Applying ${thisOption} to ${thisImage}...`)
-                console.log(args)
-                console.log(!args.includes('dryrun'))
                 if(!args.includes('dryrun')) {
                   runCommand(commandToRun)
                 }
@@ -59,15 +57,12 @@ You found the Magickapp help! Pass an option, such as "grayscale", to generate i
     `) // Purposeful initial line break 
   } else {
     srcImage = fs.readdirSync('./src-image')
-    console.log(args)
     let options = args.length === 2 ? ['help'] : args.slice(2) // trims off the first two default node args
-    console.log(options)
     let magickappArgs = options.filter(thisOption => thisOption.includes('--')).map(thisArg => thisArg.slice(2).toLowerCase())
     options = options.filter(thisOption => !thisOption.includes('--'))
     destDirName = `dest-${options.join('-')}`
     if(!fs.existsSync(destDirName)) fs.mkdirSync(destDirName) // If exists, convert will overwrite whatever is in there 
     try {
-      console.log(magickappArgs)
       return await convert(options, ...magickappArgs);
     } catch(err) {
       console.error(err)
