@@ -206,7 +206,7 @@ const getConvertOptions = (option, optionArgs) => {
       let increment = 1
       allOptions = [ ...allOptions,
         () => { return {input: '', output: `-paint -1` , nickname: `print--1`} },
-        ...new Array(30)
+        ...new Array(18)
           .fill(0)
           .map((imgFunc, idx) => {
             let value = (Math.round(increment * (idx) / 1) * 1).toFixed(0) // Rounding to the tenths place, Math.round(num / granularity) * granularity
