@@ -26,7 +26,19 @@ const getConvertOptions = (option, optionArgs) => {
     case 'black‑threshold': {}
     case 'blend': {}
     case 'blue‑primary': {}
-    case 'blue‑shift': {}
+    case 'blue-shift': {
+      let increment = 0.4
+      allOptions = [ ...allOptions,
+        ...new Array(10)
+          .fill(0)
+          .map((imgFunc, idx) => {
+            let value = (Math.round(increment * idx / 0.1) * 0.1).toFixed(1) // Rounding to the tenths place, Math.round(num / granularity) * granularity
+            imgFunc = () => { return {input: '', output: `-blue-shift ${value}` , nickname: `blue-shift-${value}`} }
+            return imgFunc
+          })
+      ]
+      break
+    }
     case 'blur': {}
     case 'border': {}
     case 'bordercolor': {}
