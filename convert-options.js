@@ -39,11 +39,24 @@ const getConvertOptions = (option, optionArgs) => {
       ]
       break
     }
-    case 'blur': {}
-    case 'border': {}
+    case 'blur': {} // works like this convert toby-ziegler.jpg -blur 46x48 ./blur/toby.jpg . Not sure it's so practical, but may implement later. 
+    case 'border': {} // works like this convert toby-ziegler.jpg -border 10x10 ./border/toby.jpg
     case 'bordercolor': {}
     case 'borderwidth': {}
-    case 'brightness‑contrast': {}
+    case 'brightness-contrast': {
+      let brightnessPercentages = [-80,-60,-40,-20,0,20,40,60,80]
+      let contrastPercentages = [-80,-60,-40,-20,0,20,40,60,80]
+      let brightnessContrastFunctions = contrastPercentages.reduce((prev, curr, currIdx, arr) => {
+        let theseBrightnessContrastFunctions = []
+        for(let i = 0; i < brightnessPercentages.length; i++ ) {
+          let brightnessContrastObj = {input: '', output: `-brightness-contrast ${brightnessPercentages[i]}x${curr}` , nickname: `brightness-contrast-${brightnessPercentages[i]}x${curr}`}
+          theseBrightnessContrastFunctions.push(() => { return brightnessContrastObj } )
+        }
+        return [...prev, ...theseBrightnessContrastFunctions]
+      }, [])
+      allOptions = [ ...allOptions, ...brightnessContrastFunctions ]
+      break
+    } // works like this convert toby-ziegler.jpg -brightness-contrast -40x-80 ./brightness-contrast/toby.jpg
     case 'cache': {}
     case 'canny': {}
     case 'caption': {}
